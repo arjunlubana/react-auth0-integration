@@ -5,7 +5,11 @@ export default function LoginButton() {
   const { loginWithRedirect } = useAuth0();
 
   return (
-    <Button variant="contained" onClick={() => loginWithRedirect()}>
+    <Button
+      variant="contained"
+      color="secondary"
+      onClick={() => loginWithRedirect()}
+    >
       Log In
     </Button>
   );

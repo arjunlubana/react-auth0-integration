@@ -1,10 +1,9 @@
-import { NavLink } from "react-router-dom";
-import { Button } from "@mui/material";
+import CustomLink from "./CustomLink";
 
 export default function ProfileButton() {
 	return (
-		<Button>
-			<NavLink to="/profile">Profile</NavLink>
-		</Button>
+		<CustomLink to="/profile" variant="button" underline="none">
+			Profile
+		</CustomLink>
 	);
 }

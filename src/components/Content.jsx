@@ -15,13 +15,16 @@ export default function Content() {
 	return (
 		<Container maxWidth="md">
 			<Typography
+				variant="h1"
 				sx={{
 					textAlign: "center",
-					typography: { xs: "h3", md: "h2", lg: "h1" },
+					fontSize: { xs: "4rem", md: "6rem" },
 				}}
 			>
 				A demo using
+				<br />
 				<Link href="https://auth0.com"> Auth0 </Link>
+				<br />
 				for User Authentication.
 			</Typography>
 			<Box sx={{ my: "1rem" }}>

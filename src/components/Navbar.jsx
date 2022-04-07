@@ -1,14 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import {
-  AppBar,
-  Container,
-  Box,
-  Toolbar,
-  Typography,
-  Stack,
-  CircularProgress,
-} from "@mui/material";
-import LoginButton from "./Login";
+import CustomLink from "./CustomLink";
+import { AppBar, Container, Box, Toolbar, Typography } from "@mui/material";
+import LoginButton from "./LoginButton";
 import UserMenu from "./UserMenu";
 
 function Navbar() {
@@ -19,23 +12,15 @@ function Navbar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
-            variant="h6"
+            variant="h5"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+            sx={{ flexGrow: 1, display: { xs: "flex" } }}
           >
-            REACT AUTH0
+            <CustomLink to="/" color="white" underline="none">
+              REACT AUTH0
+            </CustomLink>
           </Typography>
-
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-          >
-            REACT AUTH0
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
 
           <Box sx={{ flexGrow: 0 }}>
             {isAuthenticated ? <UserMenu /> : <LoginButton />}

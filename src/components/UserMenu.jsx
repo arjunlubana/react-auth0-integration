@@ -3,7 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Menu, MenuItem, IconButton, Avatar, Button } from "@mui/material";
 import LogoutButton from "./LogoutButton";
 import ProfileButton from "./ProfileButton";
-import CustomLink from "./CustomLink";
 
 export default function UserMenu() {
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -37,10 +36,8 @@ export default function UserMenu() {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        <MenuItem onClick={handleCloseUserMenu} dense={true}>
-          <CustomLink to="/profile" variant="button" underline="none">
-            Profile
-          </CustomLink>
+        <MenuItem onClick={handleCloseUserMenu}>
+          <ProfileButton />
         </MenuItem>
         <MenuItem onClick={handleCloseUserMenu}>
           <LogoutButton />

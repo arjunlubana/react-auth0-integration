@@ -11,6 +11,8 @@ ReactDOM.render(
       domain="dev-3ibqx6yh.us.auth0.com"
       clientId="0nPzfXA9vHRCuAMRsgrUzbfNjqpMUhnP"
       redirectUri={window.location.origin}
+      audience="https://dev-3ibqx6yh.us.auth0.com/api/v2/"
+      scope="read:current_user update:current_user_metadata"
     >
       <BrowserRouter>
         <CssBaseline />

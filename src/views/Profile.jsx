@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Typography, Box, Avatar, Skeleton } from "@mui/material";
+import { Typography, Box, Skeleton, TextField } from "@mui/material";
 import useApi from "../hooks/useApi";
 
 export default function Profile() {
@@ -13,11 +13,12 @@ export default function Profile() {
     loading,
     error,
     refresh,
-    data: userMetadata,
+    data
   } = useApi(
     `https://dev-3ibqx6yh.us.auth0.com/api/v2/users/${user?.sub}`,
     opts
   );
+
   const getTokenAndTryAgain = async () => {
     await getAccessTokenWithPopup(opts);
     refresh();
@@ -46,15 +47,7 @@ export default function Profile() {
   }
   if (error) {
     if (error.error === "login_required") {
-      return (
-        <button
-          onClick={() =>
-            loginWithRedirect(opts)
-          }
-        >
-          Login
-        </button>
-      );
+      return <button onClick={() => loginWithRedirect(opts)}>Login</button>;
     }
     if (error.error === "consent_required") {
       return (
@@ -65,17 +58,18 @@ export default function Profile() {
   }
 
   return (
-    <Box
+    data && <Box
+      component="form"
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        maxWidth: "sm",
-        mx: "auto",
+        "& > :not(style)": { m: 1, width: "25ch" },
       }}
+      noValidate
+      autoComplete="off"
     >
-      {JSON.stringify(userMetadata, null, 2)}
+      {/*<TextField id={userInfo.name} label="Name" variant="outlined" defaultValue={userInfo.name} />
+      <TextField id="outlined-basic" label="E-mail" variant="outlined" defaultValue={userInfo.email} />*/}
+
+      {JSON.stringify(data, null, 2)}
     </Box>
   );
 }

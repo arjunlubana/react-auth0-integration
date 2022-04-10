@@ -4,6 +4,8 @@ import MUIIcon from "../assets/mui.svg";
 import ReactIcon from "../assets/react.svg";
 import ReactRouterIcon from "../assets/reactrouter.svg";
 
+import useAccessToken from "../hooks/useAccessToken";
+
 const imageData = [
 	{ title: "Auth0", img: Auth0Icon },
 	{ title: "Material UI", img: MUIIcon },
@@ -12,6 +14,7 @@ const imageData = [
 ];
 
 export default function Content() {
+
 	return (
 		<Container maxWidth="md">
 			<Typography

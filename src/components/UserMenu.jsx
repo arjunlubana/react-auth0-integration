@@ -1,11 +1,11 @@
 import { Fragment, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Menu, MenuItem, IconButton, Avatar, Button } from "@mui/material";
+import { Menu, MenuItem, IconButton, Avatar } from "@mui/material";
 import LogoutButton from "./LogoutButton";
 import ProfileButton from "./ProfileButton";
 
 export default function UserMenu() {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user } = useAuth0();
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {

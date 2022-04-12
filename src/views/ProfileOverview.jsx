@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
-export default function ProfileOverview({ userData }) {
+import useProfile from "./Profile"
+export default function ProfileOverview() {
 	return (
 		<div>
 			<h1>Profile Overview</h1>
-			<Outlet></Outlet>
 		</div>
 	);
 }

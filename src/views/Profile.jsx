@@ -1,16 +1,9 @@
+import { Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useState, useEffect } from "react";
-import { Typography, Box, Skeleton, TextField } from "@mui/material";
 import useApi from "../hooks/useApi";
 
 export default function Profile() {
-	const {
-		user,
-		isAuthenticated,
-		getAccessTokenSilently,
-		getAccessTokenWithPopup,
-		loginWithRedirect,
-	} = useAuth0();
+	const { user, getAccessTokenWithPopup, loginWithRedirect } = useAuth0();
 
 	const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 	const options = {
@@ -27,27 +20,28 @@ export default function Profile() {
 
 	if (loading) {
 		return (
-			<Box
-				sx={{
-					display: "flex",
-					flexDirection: "column",
-					justifyContent: "center",
-					alignItems: "center",
-					maxWidth: "sm",
-					mx: "auto",
-				}}
-			>
-				<Skeleton
-					variant="circular"
-					sx={{ width: "128px", height: "128px" }}
-				/>
-				<Typography variant="h2" sx={{ width: "100%" }}>
-					<Skeleton />
-				</Typography>
-				<Typography variant="h5" sx={{ width: "100%" }}>
-					<Skeleton />
-				</Typography>
-			</Box>
+			<div>Loading ...</div>
+			// <Box
+			// 	sx={{
+			// 		display: "flex",
+			// 		flexDirection: "column",
+			// 		justifyContent: "center",
+			// 		alignItems: "center",
+			// 		maxWidth: "sm",
+			// 		mx: "auto",
+			// 	}}
+			// >
+			// 	<Skeleton
+			// 		variant="circular"
+			// 		sx={{ width: "128px", height: "128px" }}
+			// 	/>
+			// 	<Typography variant="h2" sx={{ width: "100%" }}>
+			// 		<Skeleton />
+			// 	</Typography>
+			// 	<Typography variant="h5" sx={{ width: "100%" }}>
+			// 		<Skeleton />
+			// 	</Typography>
+			// </Box>
 		);
 	}
 	if (error) {
@@ -68,18 +62,9 @@ export default function Profile() {
 		return <div>Oops {error.message}</div>;
 	}
 	return (
-		data && (
-			<div>
-				<img src={user.picture} alt={user.name} />
-				<h2>{user.name}</h2>
-				<p>{user.email}</p>
-				<h3>User Metadata</h3>
-				{data ? (
-					<pre>{JSON.stringify(data, null, 2)}</pre>
-				) : (
-					"No user metadata defined"
-				)}
-			</div>
-		)
+		<div>
+			<h1>{user.name}</h1>
+			<Outlet></Outlet>
+		</div>
 	);
 }

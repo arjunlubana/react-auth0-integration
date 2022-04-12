@@ -3,8 +3,7 @@ import Auth0Icon from "../assets/auth0.svg";
 import MUIIcon from "../assets/mui.svg";
 import ReactIcon from "../assets/react.svg";
 import ReactRouterIcon from "../assets/reactrouter.svg";
-
-import useAccessToken from "../hooks/useAccessToken";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const imageData = [
 	{ title: "Auth0", img: Auth0Icon },
@@ -14,7 +13,6 @@ const imageData = [
 ];
 
 export default function Content() {
-
 	return (
 		<Container maxWidth="md">
 			<Typography

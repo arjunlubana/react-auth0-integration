@@ -5,6 +5,7 @@ import TabsHeader from "../components/TabsHeader";
 import TabsPanel from "../components/TabsPanel";
 import ProfileOverview from "./ProfileOverview";
 import ProfileSettings from "./ProfileSettings";
+import ProfileInfo from "../components/ProfileInfo"
 import LoginButton from "../components/LoginButton";
 import ProfileLoader from "../loaders/ProfileLoader";
 import { Button, Container } from "@mui/material";
@@ -41,7 +42,7 @@ export default function Profile() {
 	}
 	return (
 		<Container>
-			<h1>{user.name}</h1>
+			<ProfileInfo name={user.name} image={user.picture} />
 			<TabsHeader>
 				{(value) => (
 					<Fragment>

@@ -1,6 +1,11 @@
+import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import useApi from "../hooks/useApi";
+import BasicTabs from "../components/Tabs";
+import TabsPanel from "../components/TabsPanel";
+import ProfileOverview from "./ProfileOverview";
+import ProfileSettings from "./ProfileSettings";
 
 export default function Profile() {
 	const { user, getAccessTokenWithPopup, loginWithRedirect } = useAuth0();
@@ -64,7 +69,18 @@ export default function Profile() {
 	return (
 		<div>
 			<h1>{user.name}</h1>
-			<Outlet context={data}/>
+			<BasicTabs>
+				{(value) => (
+					<Fragment>
+						<TabsPanel value={value} index={0}>
+							<ProfileOverview />
+						</TabsPanel>
+						<TabsPanel value={value} index={1}>
+							<ProfileSettings />
+						</TabsPanel>
+					</Fragment>
+				)}
+			</BasicTabs>
 		</div>
 	);
 }

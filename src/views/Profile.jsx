@@ -6,6 +6,7 @@ import TabsPanel from "../components/TabsPanel";
 import ProfileOverview from "./ProfileOverview";
 import ProfileSettings from "./ProfileSettings";
 import LoginButton from "../components/LoginButton";
+import ProfileLoader from "../loaders/ProfileLoader";
 import { Button, Container } from "@mui/material";
 
 export default function Profile() {
@@ -23,30 +24,7 @@ export default function Profile() {
 	};
 
 	if (loading) {
-		return (
-			<div>Loading ...</div>
-			// <Box
-			// 	sx={{
-			// 		display: "flex",
-			// 		flexDirection: "column",
-			// 		justifyContent: "center",
-			// 		alignItems: "center",
-			// 		maxWidth: "sm",
-			// 		mx: "auto",
-			// 	}}
-			// >
-			// 	<Skeleton
-			// 		variant="circular"
-			// 		sx={{ width: "128px", height: "128px" }}
-			// 	/>
-			// 	<Typography variant="h2" sx={{ width: "100%" }}>
-			// 		<Skeleton />
-			// 	</Typography>
-			// 	<Typography variant="h5" sx={{ width: "100%" }}>
-			// 		<Skeleton />
-			// 	</Typography>
-			// </Box>
-		);
+		return <ProfileLoader />;
 	}
 	if (error) {
 		if (error.error === "login_required") {

@@ -1,16 +1,15 @@
 import { Fragment } from "react";
-import { Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import useApi from "../hooks/useApi";
-import BasicTabs from "../components/Tabs";
+import TabsHeader from "../components/TabsHeader";
 import TabsPanel from "../components/TabsPanel";
 import ProfileOverview from "./ProfileOverview";
 import ProfileSettings from "./ProfileSettings";
+import LoginButton from "../components/LoginButton";
+import { Button, Container } from "@mui/material";
 
 export default function Profile() {
 	const { user, getAccessTokenWithPopup, loginWithRedirect } = useAuth0();
-
-	const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 	const options = {
 		audience: process.env.REACT_APP_AUTH0_MANAGEMENT_API,
 		scope: "read:current_user",
@@ -51,36 +50,32 @@ export default function Profile() {
 	}
 	if (error) {
 		if (error.error === "login_required") {
-			return (
-				<button onClick={() => loginWithRedirect(options)}>
-					Login
-				</button>
-			);
+			return <LoginButton />;
 		}
 		if (error.error === "consent_required") {
 			return (
-				<button onClick={getTokenAndTryAgain}>
-					Consent to reading users
-				</button>
+				<Button onClick={getTokenAndTryAgain}>
+					Consent to reading user info
+				</Button>
 			);
 		}
 		return <div>Oops {error.message}</div>;
 	}
 	return (
-		<div>
+		<Container>
 			<h1>{user.name}</h1>
-			<BasicTabs>
+			<TabsHeader>
 				{(value) => (
 					<Fragment>
 						<TabsPanel value={value} index={0}>
-							<ProfileOverview />
+							<ProfileOverview userData={data} />
 						</TabsPanel>
 						<TabsPanel value={value} index={1}>
-							<ProfileSettings />
+							<ProfileSettings userData={data} />
 						</TabsPanel>
 					</Fragment>
 				)}
-			</BasicTabs>
-		</div>
+			</TabsHeader>
+		</Container>
 	);
 }

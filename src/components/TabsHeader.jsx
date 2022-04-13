@@ -1,9 +1,6 @@
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SettingsIcon from "@mui/icons-material/Settings";
+import { useState } from "react";
+import { Box, Tabs, Tab, Typography } from "@mui/material";
+import { AccountCircle, Settings } from "@mui/icons-material";
 
 function a11yProps(index) {
   return {
@@ -12,8 +9,8 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs({ children }) {
-  const [value, setValue] = React.useState(0);
+export default function TabsHeader({ children }) {
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -29,13 +26,13 @@ export default function BasicTabs({ children }) {
           centered
         >
           <Tab
-            icon={<AccountCircleIcon />}
+            icon={<AccountCircle />}
             iconPosition="start"
             label="Overview"
             {...a11yProps(0)}
           />
           <Tab
-            icon={<SettingsIcon />}
+            icon={<Settings />}
             iconPosition="start"
             label="Settings"
             {...a11yProps(1)}

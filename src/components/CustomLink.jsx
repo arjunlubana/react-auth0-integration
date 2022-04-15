@@ -1,8 +1,8 @@
+import { forwardRef } from "react";
 import { useHref, useLinkClickHandler } from "react-router-dom";
 import Link from "@mui/material/Link";
-import React from "react";
 
-const CustomLink = React.forwardRef(
+const CustomLink = forwardRef(
 	({ onClick, replace = false, state, target, to, ...rest }, ref) => {
 		let href = useHref(to);
 		let handleClick = useLinkClickHandler(to, {

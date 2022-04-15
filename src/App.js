@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Content from "./views/Content";
-import Profile from "./views/Profile";
+import { Navbar } from "components";
+import { Content, Profile } from "views";
 
 export default function App() {
   return (

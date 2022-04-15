@@ -1,8 +1,7 @@
 import { Fragment, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Menu, MenuItem, IconButton, Avatar } from "@mui/material";
-import LogoutButton from "./LogoutButton";
-import ProfileButton from "./ProfileButton";
+import { LogoutButton, ProfileButton } from "components";
 
 export default function UserMenu() {
   const { user } = useAuth0();

@@ -1,8 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import CustomLink from "./CustomLink";
 import { AppBar, Container, Box, Toolbar, Typography } from "@mui/material";
-import LoginButton from "./LoginButton";
-import UserMenu from "./UserMenu";
+import { CustomLink, LoginButton, UserMenu } from "components";
 
 function Navbar() {
   const { isAuthenticated } = useAuth0();

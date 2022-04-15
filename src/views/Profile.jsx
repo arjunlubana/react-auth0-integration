@@ -1,14 +1,10 @@
 import { Fragment } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import useApi from "../hooks/useApi";
-import TabsHeader from "../components/TabsHeader";
-import TabsPanel from "../components/TabsPanel";
-import ProfileOverview from "./ProfileOverview";
-import ProfileSettings from "./ProfileSettings";
-import ProfileInfo from "../components/ProfileInfo"
-import LoginButton from "../components/LoginButton";
-import ProfileLoader from "../loaders/ProfileLoader";
 import { Button, Container } from "@mui/material";
+import { useApi } from "hooks";
+import { ProfileOverview, ProfileSettings } from "views";
+import { ProfileLoader } from "loaders";
+import { TabsHeader, TabsPanel, ProfileInfo, LoginButton } from "components";
 
 export default function Profile() {
 	const { user, getAccessTokenWithPopup } = useAuth0();
@@ -41,20 +37,22 @@ export default function Profile() {
 		return <div>Oops {error.name}</div>;
 	}
 	return (
-		user && <Container>
-			<ProfileInfo name={user.name} image={user.picture} />
-			<TabsHeader>
-				{(value) => (
-					<Fragment>
-						<TabsPanel value={value} index={0}>
-							<ProfileOverview userData={data} />
-						</TabsPanel>
-						<TabsPanel value={value} index={1}>
-							<ProfileSettings userData={data} />
-						</TabsPanel>
-					</Fragment>
-				)}
-			</TabsHeader>
-		</Container>
+		user && (
+			<Container>
+				<ProfileInfo name={user.name} image={user.picture} />
+				<TabsHeader>
+					{(value) => (
+						<Fragment>
+							<TabsPanel value={value} index={0}>
+								<ProfileOverview userData={data} />
+							</TabsPanel>
+							<TabsPanel value={value} index={1}>
+								<ProfileSettings userData={data} />
+							</TabsPanel>
+						</Fragment>
+					)}
+				</TabsHeader>
+			</Container>
+		)
 	);
 }

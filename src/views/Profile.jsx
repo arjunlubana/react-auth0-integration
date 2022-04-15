@@ -11,13 +11,13 @@ import ProfileLoader from "../loaders/ProfileLoader";
 import { Button, Container } from "@mui/material";
 
 export default function Profile() {
-	const { user, getAccessTokenWithPopup, loginWithRedirect } = useAuth0();
+	const { user, getAccessTokenWithPopup } = useAuth0();
 	const options = {
+		url: `${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
 		audience: process.env.REACT_APP_AUTH0_MANAGEMENT_API,
 		scope: "read:current_user",
 	};
-	const url = `${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`;
-	const { error, loading, data, refresh } = useApi(url, options);
+	const { error, loading, data, refresh } = useApi(options);
 
 	const getTokenAndTryAgain = async () => {
 		await getAccessTokenWithPopup(options);
@@ -38,10 +38,10 @@ export default function Profile() {
 				</Button>
 			);
 		}
-		return <div>Oops {error.message}</div>;
+		return <div>Oops {error.name}</div>;
 	}
 	return (
-		<Container>
+		user && <Container>
 			<ProfileInfo name={user.name} image={user.picture} />
 			<TabsHeader>
 				{(value) => (

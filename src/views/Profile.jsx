@@ -8,15 +8,22 @@ import { TabsHeader, TabsPanel, ProfileInfo, LoginButton } from "components";
 
 export default function Profile() {
 	const { user, getAccessTokenWithPopup } = useAuth0();
-	const options = {
-		url: `${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
+	const tokenOptions = {
 		audience: process.env.REACT_APP_AUTH0_MANAGEMENT_API,
 		scope: "read:current_user",
 	};
-	const { error, loading, data, refresh } = useApi(options);
+
+	const fetchOptions = {
+		headers: {},
+	};
+	const { error, loading, data, refresh } = useApi(
+		`${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
+		tokenOptions,
+		fetchOptions
+	);
 
 	const getTokenAndTryAgain = async () => {
-		await getAccessTokenWithPopup(options);
+		await getAccessTokenWithPopup(tokenOptions);
 		refresh();
 	};
 

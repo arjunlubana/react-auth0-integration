@@ -2,8 +2,11 @@ import { Container, Button, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { DateTime } from "luxon";
 import { Auth0Icon, TwitterIcon, GoogleIcon } from "assets";
+import { useApi } from "hooks";
 
 export default function ProfileOverview({ userData }) {
+	const dt = DateTime.fromISO(userData.created_at);
+
 	const {
 		register,
 		handleSubmit,
@@ -11,24 +14,31 @@ export default function ProfileOverview({ userData }) {
 		formState: { errors },
 	} = useForm();
 	const onSubmit = (data) => alert(JSON.stringify(data));
-	const dt = DateTime.fromISO(userData.created_at);
+
 	return (
-		<Container>
+		<Container
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				justifyContent: "center",
+				alignItems: "center",
+			}}
+		>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<TextField
-					id="first_name"
+					id="given_name"
 					label="First Name"
 					variant="outlined"
 					defaultValue={userData.given_name}
-					{...register("first_name")}
+					{...register("given_name")}
 					sx={{ m: "1rem" }}
 				/>
 				<TextField
-					id="last_name"
+					id="family_name"
 					label="Last Name"
 					variant="outlined"
 					defaultValue={userData.family_name}
-					{...register("last_name")}
+					{...register("family_name")}
 					sx={{ m: "1rem" }}
 				/>
 				<TextField
@@ -40,12 +50,19 @@ export default function ProfileOverview({ userData }) {
 					sx={{ m: "1rem" }}
 				/>
 				<br />
-				<Button type="submit" variant="outlined" sx={{ m: "1rem" }}>
+				<Button
+					type="submit"
+					variant="outlined"
+					sx={{
+						m: "1rem",
+					}}
+				>
 					Save Changes
 				</Button>
 			</form>
-			<p>Joined in {dt.toLocaleString(DateTime.DATETIME_FULL)}</p>
-			<div>
+
+			<Container sx={{ textAlign: "center" }}>
+				<p>Joined in {dt.toLocaleString(DateTime.DATETIME_FULL)}</p>
 				<p>Connected Account</p>
 				{userData.identities.map((identity) => {
 					if (identity.provider === "google-oauth2") {
@@ -56,7 +73,7 @@ export default function ProfileOverview({ userData }) {
 						return <img src={Auth0Icon} alt="auth0" />;
 					}
 				})}
-			</div>
+			</Container>
 		</Container>
 	);
 }

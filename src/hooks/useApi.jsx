@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ApiError } from "utils";
 
-const useApi = (options = {}) => {
+const useApi = (url, tokenOptions = {}, fetchOptions = {}) => {
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 	const [output, setOutput] = useState({
 		error: null,
@@ -10,14 +10,10 @@ const useApi = (options = {}) => {
 		data: null,
 	});
 	const [refreshIndex, setRefreshIndex] = useState(0);
-	const { url, audience, scope } = options;
 
 	const fetchToken = useCallback(async () => {
 		try {
-			const accessToken = await getAccessTokenSilently({
-				audience,
-				scope,
-			});
+			const accessToken = await getAccessTokenSilently(tokenOptions);
 			return accessToken;
 		} catch (error) {
 			setOutput((output) => ({
@@ -26,17 +22,14 @@ const useApi = (options = {}) => {
 				loading: false,
 			}));
 		}
-	}, [audience, scope, getAccessTokenSilently]);
+	}, [getAccessTokenSilently]);
 
 	const request = useCallback(
 		async (accessToken) => {
 			try {
 				if (isAuthenticated) {
-					const res = await fetch(url, {
-						headers: {
-							Authorization: `Bearer ${accessToken}`,
-						},
-					});
+					fetchOptions.headers.Authorization = `Bearer ${accessToken}`;
+					const res = await fetch(url, fetchOptions);
 
 					const data = await res.json();
 					if (data.error) {

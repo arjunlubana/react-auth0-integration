@@ -1,5 +1,6 @@
 import { Container, Button, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { DateTime } from "luxon";
 
 export default function ProfileOverview({ userData }) {
 	const {
@@ -9,6 +10,7 @@ export default function ProfileOverview({ userData }) {
 		formState: { errors },
 	} = useForm();
 	const onSubmit = (data) => alert(JSON.stringify(data));
+	const dt = DateTime.fromISO(userData.created_at)
 	return (
 		<Container>
 			<form onSubmit={handleSubmit(onSubmit)}>
@@ -41,7 +43,7 @@ export default function ProfileOverview({ userData }) {
 					Save Changes
 				</Button>
 			</form>
-			<p>Joined in {userData.created_at}</p>
+			<p>Joined in {dt.toLocaleString(DateTime.DATETIME_FULL)}</p>
 			<div>
 				<p>Connected Account</p>
 				{userData.identities.map((identity) => (

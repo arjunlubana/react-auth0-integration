@@ -1,3 +1,9 @@
+/*
+For Custom API Errors.
+Creates an Error object from the response object of
+a HTTP request
+*/
+
 class ApiError extends Error{
 	constructor(data, ...params){
 		super(params)

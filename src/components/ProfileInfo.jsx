@@ -8,7 +8,8 @@ export default function ProfileInfo({ name, image }) {
 				flexDirection: "column",
 				justifyContent: "center",
 				alignItems: "center",
-				mt: "1rem"
+				mt: "1rem",
+				textAlign: "center"
 			}}
 		>
 			<Avatar

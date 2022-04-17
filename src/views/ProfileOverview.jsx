@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useApi } from "hooks";
 import { ProfileLoader } from "loaders";
@@ -8,22 +9,27 @@ import { Auth0Icon, TwitterIcon, GoogleIcon } from "assets";
 
 export default function ProfileOverview() {
 	const { user, getAccessTokenWithPopup } = useAuth0();
-	const tokenOptions = {
-		audience: process.env.REACT_APP_AUTH0_MANAGEMENT_API,
-		scope: "read:current_user",
-	};
+	const options = useMemo(
+		() => ({
+			tokenOptions: {
+				audience: process.env.REACT_APP_AUTH0_MANAGEMENT_API,
+				scope: "read:current_user",
+			},
+			fetchOptions: {
+				headers: {},
+			}
 
-	const fetchOptions = {
-		headers: {},
-	};
+		}),
+		[]
+	);
+
 	const { error, loading, data, refresh } = useApi(
 		`${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
-		tokenOptions,
-		fetchOptions
+		options
 	);
 
 	const getTokenAndTryAgain = async () => {
-		await getAccessTokenWithPopup(tokenOptions);
+		await getAccessTokenWithPopup(options.tokenOptions);
 		refresh();
 	};
 

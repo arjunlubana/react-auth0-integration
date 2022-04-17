@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useApi } from "hooks";
 import { ProfileLoader } from "loaders";
-import { Container, Button, Typography } from "@mui/material";
+import { Container, Button } from "@mui/material";
 import { DateTime } from "luxon";
 import { LoginButton } from "components";
 import { Auth0Icon, TwitterIcon, GoogleIcon } from "assets";
@@ -48,39 +48,27 @@ export default function ProfileOverview() {
 		data && (
 			<Container sx={{ textAlign: "center" }}>
 				<p>
-					Joined on {" "}
+					Joined on{" "}
 					{DateTime.fromISO(data.created_at).toLocaleString(
 						DateTime.DATETIME_FULL
 					)}
 				</p>
 				<p>Connected Account</p>
-				{data.identities.map((identity) => {
-					if (identity.provider === "google-oauth2") {
-						return (
-							<img
-								src={GoogleIcon}
-								alt="google"
-								key={identity.user_id}
-							/>
-						);
-					} else if (identity.provider === "twitter") {
-						return (
-							<img
-								src={TwitterIcon}
-								alt="twitter"
-								key={identity.user_id}
-							/>
-						);
-					} else if (identity.provider === "auth0") {
-						return (
-							<img
-								src={Auth0Icon}
-								alt="auth0"
-								key={identity.user_id}
-							/>
-						);
-					}
-				})}
+				{data.identities.map((identity) => (
+					<img
+						src={
+							identity.provider === "google-oauth2"
+								? GoogleIcon
+								: identity.provider === "twitter"
+								? TwitterIcon
+								: identity.provider === "auth0"
+								? Auth0Icon
+								: ""
+						}
+						alt={identity.provider}
+						key={identity.user_id}
+					/>
+				))}
 			</Container>
 		)
 	);

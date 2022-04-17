@@ -1,4 +1,4 @@
-import { Box, Container, Skeleton, Typography } from "@mui/material";
+import { Container, Skeleton, Typography } from "@mui/material";
 
 export default function ProfileLoader() {
 	return (
@@ -18,7 +18,6 @@ export default function ProfileLoader() {
 			<Typography variant="h2" sx={{ width: "300px" }}>
 				<Skeleton />
 			</Typography>
-			<Skeleton sx={{ width: "100%", height: "400px" }} />
 		</Container>
 	);
 }

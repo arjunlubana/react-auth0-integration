@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Button, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import { ProfileOverview, ProfileSettings } from "views";
 import { TabsHeader, TabsPanel, ProfileInfo } from "components";
 import { ProfileLoader } from "loaders";

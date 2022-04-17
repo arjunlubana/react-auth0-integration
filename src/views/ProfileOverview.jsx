@@ -48,7 +48,7 @@ export default function ProfileOverview() {
 		data && (
 			<Container sx={{ textAlign: "center" }}>
 				<p>
-					Joined in
+					Joined on {" "}
 					{DateTime.fromISO(data.created_at).toLocaleString(
 						DateTime.DATETIME_FULL
 					)}
@@ -56,11 +56,29 @@ export default function ProfileOverview() {
 				<p>Connected Account</p>
 				{data.identities.map((identity) => {
 					if (identity.provider === "google-oauth2") {
-						return <img src={GoogleIcon} alt="google" />;
+						return (
+							<img
+								src={GoogleIcon}
+								alt="google"
+								key={identity.user_id}
+							/>
+						);
 					} else if (identity.provider === "twitter") {
-						return <img src={TwitterIcon} alt="twitter" />;
+						return (
+							<img
+								src={TwitterIcon}
+								alt="twitter"
+								key={identity.user_id}
+							/>
+						);
 					} else if (identity.provider === "auth0") {
-						return <img src={Auth0Icon} alt="auth0" />;
+						return (
+							<img
+								src={Auth0Icon}
+								alt="auth0"
+								key={identity.user_id}
+							/>
+						);
 					}
 				})}
 			</Container>

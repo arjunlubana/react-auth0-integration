@@ -7,6 +7,7 @@ import ProfileInfo from "./ProfileInfo";
 import TabsHeader from "./TabsHeader";
 import TabsPanel from "./TabsPanel";
 import UserMenu from "./UserMenu";
+import MessageSnackbar from "./MessageSnackbar"
 
 export {
 	CustomLink,
@@ -18,4 +19,5 @@ export {
 	TabsHeader,
 	TabsPanel,
 	UserMenu,
+	MessageSnackbar,
 };

@@ -1,15 +1,17 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ApiError } from "utils";
 
-const useApi = (url, options = {}) => {
+const useApi = (url, opts = {}) => {
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+
 	const [output, setOutput] = useState({
 		error: null,
 		loading: true,
 		data: null,
 	});
-	const [refreshIndex, setRefreshIndex] = useState(0);
+
+	const options = useMemo(() => opts, [opts]);
 
 	const fetchToken = useCallback(async () => {
 		try {
@@ -56,16 +58,14 @@ const useApi = (url, options = {}) => {
 		[url, options.fetchOptions, isAuthenticated]
 	);
 
-	useEffect(() => {
-		(async () => {
-			const accessToken = await fetchToken();
-			request(accessToken);
-		})();
-	}, [fetchToken, request, refreshIndex]);
+	const sendRequest = useCallback(async () => {
+		const accessToken = await fetchToken();
+		request(accessToken);
+	}, [fetchToken, request]);
 
 	return {
 		...output,
-		refresh: () => setRefreshIndex(refreshIndex + 1),
+		sendRequest,
 	};
 };
 

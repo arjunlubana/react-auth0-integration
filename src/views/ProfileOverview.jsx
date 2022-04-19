@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useApi } from "hooks";
 import { ProfileLoader } from "loaders";
@@ -9,8 +9,7 @@ import { Auth0Icon, TwitterIcon, GoogleIcon } from "assets";
 
 export default function ProfileOverview() {
 	const { user, getAccessTokenWithPopup } = useAuth0();
-	const options = useMemo(
-		() => ({
+	const options = {
 			tokenOptions: {
 				audience: process.env.REACT_APP_AUTH0_MANAGEMENT_API,
 				scope: "read:current_user",
@@ -19,18 +18,20 @@ export default function ProfileOverview() {
 				headers: {},
 			}
 
-		}),
-		[]
-	);
-
-	const { error, loading, data, refresh } = useApi(
+		}
+	const { error, loading, data, sendRequest} = useApi(
 		`${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
 		options
 	);
 
+	useEffect(() => {
+		sendRequest()
+		// eslint-disable-next-line
+	}, [])
+
 	const getTokenAndTryAgain = async () => {
 		await getAccessTokenWithPopup(options.tokenOptions);
-		refresh();
+		sendRequest()
 	};
 
 	if (loading) {

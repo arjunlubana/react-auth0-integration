@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useApi } from "hooks";
-import Box from "@mui/material/Box";
-import ToggleButton from "@mui/material/ToggleButton";
-import FormControl from "@mui/material/FormControl";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import Typography from "@mui/material/Typography";
+import { useApi, useSnackbar } from "hooks";
+import {
+	Button,
+	Box,
+	ToggleButton,
+	FormControl,
+	ToggleButtonGroup,
+	Typography,
+} from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
-import { MessageSnackbar } from "components";
 
 export default function ProfileSettings() {
 	const [alignment, setAlignment] = useState("dark");
-	const { user } = useAuth0();
 	const options = {
 		tokenOptions: {
 			audience: process.env.REACT_APP_AUTH0_MANAGEMENT_API,
@@ -25,6 +26,8 @@ export default function ProfileSettings() {
 		},
 	};
 
+	const { addAlert } = useSnackbar();
+	const { user } = useAuth0();
 	const { error, data, sendRequest } = useApi(
 		`${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
 		options
@@ -34,17 +37,18 @@ export default function ProfileSettings() {
 		setAlignment(newAlignment);
 	};
 
-	const handleSubmit = (e) => {
-		options.fetchOptions.body = JSON.stringify({
-			user_metadata: { theme: alignment },
-		});
-		sendRequest();
+	const handleSubmit = async (e) => {
+		// options.fetchOptions.body = JSON.stringify({
+		// 	user_metadata: { theme: alignment },
+		// });
+		await sendRequest();
+		if (data) {
+			addAlert("Theme Saved");
+		}
+		if (error) {
+			addAlert("Error occured");
+		}
 	};
-
-	if (error) {
-	}
-	if (data) {
-	}
 
 	return (
 		<Box sx={{ maxWidth: 200, mx: "auto", my: "1rem" }}>
@@ -74,7 +78,7 @@ export default function ProfileSettings() {
 						Light
 					</ToggleButton>
 				</ToggleButtonGroup>
-				<MessageSnackbar handler={handleSubmit}>Save</MessageSnackbar>
+				<Button onClick={handleSubmit}>Save</Button>
 			</FormControl>
 		</Box>
 	);

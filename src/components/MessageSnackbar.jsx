@@ -1,19 +1,19 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
-export default function MessageSnackbar({handler, children}) {
+export default function MessageSnackbar({ handler, children }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
-    handler()
+    handler();
     setOpen(true);
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -38,7 +38,9 @@ export default function MessageSnackbar({handler, children}) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClick} sx={{m: "1rem"}} >{children}</Button>
+      <Button variant="outlined" onClick={handleClick} sx={{ m: "1rem" }}>
+        {children}
+      </Button>
       <Snackbar
         open={open}
         autoHideDuration={6000}

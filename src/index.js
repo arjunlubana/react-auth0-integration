@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
+
+import { SnackbarProvider } from "context/SnackbarContext";
 import App from "App";
 
 ReactDOM.render(
@@ -16,7 +18,9 @@ ReactDOM.render(
     >
       <BrowserRouter>
         <CssBaseline />
-        <App />
+        <SnackbarProvider>
+          <App />
+        </SnackbarProvider>
       </BrowserRouter>
     </Auth0Provider>
   </StrictMode>,

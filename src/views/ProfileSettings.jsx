@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useApi, useSnackbar } from "hooks";
+import { useAuthApi, useSnackbar } from "hooks";
 import {
 	Button,
 	Box,
@@ -28,20 +28,21 @@ export default function ProfileSettings() {
 
 	const { addAlert } = useSnackbar();
 	const { user } = useAuth0();
-	const { error, data, sendRequest } = useApi(
-		`${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
-		options
-	);
+	const { sendRequest } = useAuthApi();
 
 	const handleChange = (event, newAlignment) => {
 		setAlignment(newAlignment);
 	};
 
 	const handleSubmit = async (e) => {
-		// options.fetchOptions.body = JSON.stringify({
-		// 	user_metadata: { theme: alignment },
-		// });
-		await sendRequest();
+		options.fetchOptions.body = JSON.stringify({
+			user_metadata: { theme: alignment },
+		});
+		const { error, data } = await sendRequest(
+			`${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
+			options
+		);
+
 		if (data) {
 			addAlert("Theme Saved");
 		}
@@ -78,7 +79,13 @@ export default function ProfileSettings() {
 						Light
 					</ToggleButton>
 				</ToggleButtonGroup>
-				<Button onClick={handleSubmit}>Save</Button>
+				<Button
+					variant="outlined"
+					onClick={handleSubmit}
+					sx={{ m: "1rem" }}
+				>
+					Save
+				</Button>
 			</FormControl>
 		</Box>
 	);

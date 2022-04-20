@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useApi } from "hooks";
+import { useAuthApi } from "hooks";
 import { ProfileLoader } from "loaders";
 import { Container, Button } from "@mui/material";
 import { DateTime } from "luxon";
@@ -10,28 +10,28 @@ import { Auth0Icon, TwitterIcon, GoogleIcon } from "assets";
 export default function ProfileOverview() {
 	const { user, getAccessTokenWithPopup } = useAuth0();
 	const options = {
-			tokenOptions: {
-				audience: process.env.REACT_APP_AUTH0_MANAGEMENT_API,
-				scope: "read:current_user",
-			},
-			fetchOptions: {
-				headers: {},
-			}
-
-		}
-	const { error, loading, data, sendRequest} = useApi(
-		`${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
-		options
-	);
+		tokenOptions: {
+			audience: process.env.REACT_APP_AUTH0_MANAGEMENT_API,
+			scope: "read:current_user",
+		},
+		fetchOptions: {
+			headers: {},
+		},
+	};
+	const { error, loading, data, sendRequest } = useAuthApi();
 
 	useEffect(() => {
-		sendRequest()
+		sendRequest(
+			`${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
+			options
+		);
+
 		// eslint-disable-next-line
-	}, [])
+	}, []);
 
 	const getTokenAndTryAgain = async () => {
 		await getAccessTokenWithPopup(options.tokenOptions);
-		sendRequest()
+		sendRequest();
 	};
 
 	if (loading) {

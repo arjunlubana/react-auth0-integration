@@ -1,4 +1,4 @@
-import useApi from "./useApi";
+import useAuthApi from "./useAuthApi";
 import useSnackbar from "./useSnackbar";
 
-export { useApi, useSnackbar };
+export { useAuthApi, useSnackbar };

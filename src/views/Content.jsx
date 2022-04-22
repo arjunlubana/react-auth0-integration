@@ -1,9 +1,5 @@
 import { Typography, Container, Link, Grid, Box } from "@mui/material";
-import Auth0Icon from "../assets/auth0.svg";
-import MUIIcon from "../assets/mui.svg";
-import ReactIcon from "../assets/react.svg";
-import ReactRouterIcon from "../assets/reactrouter.svg";
-import { useAuth0 } from "@auth0/auth0-react";
+import { Auth0Icon, MUIIcon, ReactIcon, ReactRouterIcon } from "assets";
 
 const imageData = [
 	{ title: "Auth0", img: Auth0Icon },

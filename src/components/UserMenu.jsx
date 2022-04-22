@@ -1,11 +1,11 @@
-import { Fragment, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { Menu, MenuItem, IconButton, Avatar } from "@mui/material";
-import LogoutButton from "./LogoutButton";
-import ProfileButton from "./ProfileButton";
+import { useState, useContext } from "react";
+import { Menu, MenuItem, IconButton, Avatar, Skeleton } from "@mui/material";
+import { LogoutButton, ProfileButton } from "components";
+import { UserContext } from "context/UserContext";
 
 export default function UserMenu() {
-  const { user } = useAuth0();
+  const { loading, data } = useContext(UserContext);
+
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {
@@ -15,10 +15,18 @@ export default function UserMenu() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  if (loading) {
+    return (
+      <Skeleton>
+        <Avatar />
+      </Skeleton>
+    );
+  }
   return (
-    <Fragment>
+    <>
       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-        <Avatar alt={user.name} src={user.picture} />
+        <Avatar alt={data.name} src={data.picture} />
       </IconButton>
       <Menu
         sx={{ mt: "45px" }}
@@ -43,6 +51,6 @@ export default function UserMenu() {
           <LogoutButton />
         </MenuItem>
       </Menu>
-    </Fragment>
+    </>
   );
 }

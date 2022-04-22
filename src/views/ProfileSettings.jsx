@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAuthApi, useSnackbar } from "hooks";
 import {
 	Button,
 	Box,
@@ -11,18 +10,21 @@ import {
 } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
 
+import { UserContext } from "context/UserContext";
+import { useAuthApi, useSnackbar } from "hooks";
+
 export default function ProfileSettings() {
-	const [alignment, setAlignment] = useState("dark");
-	const options = {
-		tokenOptions: {
-			audience: process.env.REACT_APP_AUTH0_MANAGEMENT_API,
-			scope: "update:current_user_metadata",
-		},
-		fetchOptions: {
-			method: "PATCH",
-			headers: {
-				"Content-Type": "application/json",
-			},
+	const { error, data } = useContext(UserContext);
+	const [alignment, setAlignment] = useState(
+		data.user_metadata.theme === undefined
+			? "light"
+			: data.user_metadata.theme
+	);
+
+	const fetchOptions = {
+		method: "PATCH",
+		headers: {
+			"Content-Type": "application/json",
 		},
 	};
 
@@ -35,13 +37,15 @@ export default function ProfileSettings() {
 	};
 
 	const handleSubmit = async (e) => {
-		options.fetchOptions.body = JSON.stringify({
+		fetchOptions.body = JSON.stringify({
 			user_metadata: { theme: alignment },
 		});
-		const { error, data } = await sendRequest(
+		await sendRequest(
 			`${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
-			options
-		);
+			fetchOptions
+		).then(() => {
+			console.log(data)
+		})
 
 		if (data) {
 			addAlert("Theme Saved");

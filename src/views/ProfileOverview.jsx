@@ -1,38 +1,14 @@
-import { useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useAuthApi } from "hooks";
+import { useContext } from "react";
 import { ProfileLoader } from "loaders";
-import { Container, Button } from "@mui/material";
+import { Container } from "@mui/material";
 import { DateTime } from "luxon";
+
+import { UserContext } from "context/UserContext";
 import { LoginButton } from "components";
 import { Auth0Icon, TwitterIcon, GoogleIcon } from "assets";
 
 export default function ProfileOverview() {
-	const { user, getAccessTokenWithPopup } = useAuth0();
-	const options = {
-		tokenOptions: {
-			audience: process.env.REACT_APP_AUTH0_MANAGEMENT_API,
-			scope: "read:current_user",
-		},
-		fetchOptions: {
-			headers: {},
-		},
-	};
-	const { error, loading, data, sendRequest } = useAuthApi();
-
-	useEffect(() => {
-		sendRequest(
-			`${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
-			options
-		);
-
-		// eslint-disable-next-line
-	}, []);
-
-	const getTokenAndTryAgain = async () => {
-		await getAccessTokenWithPopup(options.tokenOptions);
-		sendRequest();
-	};
+	const { error, loading, data } = useContext(UserContext);
 
 	if (loading) {
 		return <ProfileLoader />;
@@ -40,13 +16,6 @@ export default function ProfileOverview() {
 	if (error) {
 		if (error.error === "login_required") {
 			return <LoginButton />;
-		}
-		if (error.error === "consent_required") {
-			return (
-				<Button onClick={getTokenAndTryAgain}>
-					Consent to reading user info
-				</Button>
-			);
 		}
 		return <div>Oops {error.name}</div>;
 	}

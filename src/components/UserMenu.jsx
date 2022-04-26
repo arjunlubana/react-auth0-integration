@@ -18,9 +18,9 @@ export default function UserMenu() {
 
   if (loading) {
     return (
-      <Avatar>
-        <Skeleton />
-      </Avatar>
+      <Skeleton variant="circular">
+        <Avatar />
+      </Skeleton>
     );
   }
   return data ? (

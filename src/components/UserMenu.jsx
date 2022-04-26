@@ -1,10 +1,10 @@
 import { useState, useContext } from "react";
-import { Menu, MenuItem, IconButton, Avatar, Skeleton } from "@mui/material";
-import { LogoutButton, ProfileButton } from "components";
+import { Menu, MenuItem, IconButton, Avatar } from "@mui/material";
+import { LogoutButton, ProfileButton, LoginButton } from "components";
 import { UserContext } from "context/UserContext";
 
 export default function UserMenu() {
-  const { loading, data } = useContext(UserContext);
+  const { data } = useContext(UserContext);
 
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -16,13 +16,6 @@ export default function UserMenu() {
     setAnchorElUser(null);
   };
 
-  if (loading) {
-    return (
-      <Skeleton variant="circular">
-        <Avatar />
-      </Skeleton>
-    );
-  }
   return data ? (
     <>
       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -53,6 +46,6 @@ export default function UserMenu() {
       </Menu>
     </>
   ) : (
-    ""
+    <LoginButton />
   );
 }

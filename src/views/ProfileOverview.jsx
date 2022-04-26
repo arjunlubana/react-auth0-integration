@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { ProfileLoader } from "loaders";
 import { Container } from "@mui/material";
-import { DateTime } from "luxon";
 
 import { UserContext } from "context/UserContext";
 import { LoginButton } from "components";
@@ -25,9 +24,7 @@ export default function ProfileOverview() {
 			<Container sx={{ textAlign: "center" }}>
 				<p>
 					Joined on{" "}
-					{DateTime.fromISO(data.created_at).toLocaleString(
-						DateTime.DATETIME_FULL
-					)}
+					{new Date(data.created_at).toGMTString()}
 				</p>
 				<p>Connected Account</p>
 				{data.identities.map((identity) => (

@@ -1,10 +1,18 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { AppBar, Container, Box, Toolbar, Typography } from "@mui/material";
-import { CustomLink, LoginButton, UserMenu } from "components";
+import { lazy, Suspense } from "react";
+import {
+  AppBar,
+  Container,
+  Box,
+  Toolbar,
+  Typography,
+  Skeleton,
+  Avatar,
+} from "@mui/material";
+import { CustomLink } from "components";
+
+const UserMenu = lazy(() => import("components/UserMenu"));
 
 function Navbar() {
-  const { isAuthenticated } = useAuth0();
-
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -21,7 +29,15 @@ function Navbar() {
           </Typography>
 
           <Box sx={{ flexGrow: 0 }}>
-            {isAuthenticated ? <UserMenu /> : <LoginButton />}
+            <Suspense
+              fallback={
+                <Skeleton variant="circular">
+                  <Avatar />
+                </Skeleton>
+              }
+            >
+              <UserMenu />
+            </Suspense>
           </Box>
         </Toolbar>
       </Container>

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useState, useContext } from "react";
 import {
   Button,
   Box,
@@ -7,13 +6,15 @@ import {
   FormControl,
   ToggleButtonGroup,
   Typography,
-  useTheme
+  useTheme,
 } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
+import { UserContext } from "context/UserContext";
 import { useAuthApi } from "hooks";
 
 export default function ProfileSettings() {
-  const theme = useTheme()
+  const theme = useTheme();
+  const { dispatch } = useContext(UserContext);
   const [alignment, setAlignment] = useState(theme.palette.mode);
 
   const fetchOptions = {
@@ -23,28 +24,19 @@ export default function ProfileSettings() {
     },
   };
 
-  const { user } = useAuth0();
   const { sendRequest } = useAuthApi();
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = () => {
     fetchOptions.body = JSON.stringify({
       user_metadata: { theme: alignment },
     });
-    await sendRequest(
-      `${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`,
-      fetchOptions
-    )
-
-    // if (data) {
-    //   addAlert("Theme Saved");
-    // }
-    // if (error) {
-    //   addAlert("Error occured");
-    // }
+    sendRequest(fetchOptions).then((data) => {
+      dispatch({ type: "setUserData", payload: data });
+    });
   };
 
   return (

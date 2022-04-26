@@ -7,8 +7,6 @@ function reducer(state, action) {
 	switch (action.type) {
 		case "setUserData":
 			return { data: action.payload, loading: false, error: null };
-		case "updateUserData":
-			return { data: action.payload, loading: false, error: null };
 		default:
 			throw new Error();
 	}

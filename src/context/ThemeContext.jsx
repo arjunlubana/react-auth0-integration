@@ -7,9 +7,11 @@ var theme = createTheme({
 		mode: "light",
 	},
 });
+
 export function ThemeProvider({ children }) {
 	const { data } = useContext(UserContext);
-	if (data) {
+
+	if (data && data.user_metadata) {
 		theme = createTheme({
 			palette: {
 				mode:

@@ -1,22 +1,33 @@
-import { useEffect, createContext } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useReducer, useEffect, createContext } from "react";
 import { useAuthApi } from "hooks";
 
 export const UserContext = createContext();
 
+function reducer(state, action) {
+	switch (action.type) {
+		case "setUserData":
+			return { data: action.data, loading: false, error: null };
+		case "updateUserData":
+			return { data: action.data, loading: false, error: null };
+		default:
+			throw new Error();
+	}
+}
+
 export function UserProvider({ children }) {
-	const { user } = useAuth0();
-	const { error, loading, data, sendRequest } = useAuthApi();
+	const { sendRequest } = useAuthApi();
+	const [state, dispatch] = useReducer(reducer, {
+		data: null,
+		loading: true,
+		error: null,
+	});
 
 	useEffect(() => {
-		sendRequest(
-			`${process.env.REACT_APP_AUTH0_MANAGEMENT_API}users/${user?.sub}`
-		);
-		// eslint-disable-next-line
-	}, [user]);
+		sendRequest().then((data) => {
+			console.log(data);
+		});
+	}, [sendRequest]);
 	return (
-		<UserContext.Provider value={{ error, loading, data }}>
-			{children}
-		</UserContext.Provider>
+		<UserContext.Provider value={state}>{children}</UserContext.Provider>
 	);
 }

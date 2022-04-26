@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import { Navbar } from "components";
 import { Content } from "views";
+import { ProfileLoader } from "loaders";
 import { SnackbarProvider } from "context/SnackbarContext";
 import { UserProvider } from "context/UserContext";
 import { ThemeProvider } from "context/ThemeContext";
@@ -16,7 +17,7 @@ export default function App() {
         <SnackbarProvider>
           <CssBaseline />
           <Navbar />
-          <Suspense fallback={<div>...loading</div>}>
+          <Suspense fallback={<ProfileLoader />}>
             <Routes path="/">
               <Route index element={<Content />} />
               <Route path="profile" element={<Profile />} />

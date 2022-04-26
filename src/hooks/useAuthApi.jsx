@@ -91,6 +91,7 @@ const useAuthApi = () => {
 				if (apiError) {
 					return apiError;
 				}
+				console.log(apiError, data, authError)
 				return data;
 			}
 		},

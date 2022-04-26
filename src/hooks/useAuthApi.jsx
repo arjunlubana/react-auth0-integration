@@ -24,7 +24,6 @@ const useAuthApi = () => {
 		async () => {
 			try {
 				const accessToken = await getAccessTokenSilently();
-				console.log(accessToken);
 				return { accessToken, error: null };
 			} catch (error) {
 				return {

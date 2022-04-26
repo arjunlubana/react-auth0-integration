@@ -6,9 +6,9 @@ export const UserContext = createContext();
 function reducer(state, action) {
 	switch (action.type) {
 		case "setUserData":
-			return { data: action.data, loading: false, error: null };
+			return { data: action.payload, loading: false, error: null };
 		case "updateUserData":
-			return { data: action.data, loading: false, error: null };
+			return { data: action.payload, loading: false, error: null };
 		default:
 			throw new Error();
 	}
@@ -24,10 +24,12 @@ export function UserProvider({ children }) {
 
 	useEffect(() => {
 		sendRequest().then((data) => {
-			console.log(data);
+			dispatch({ type: "setUserData", payload: data });
 		});
 	}, [sendRequest]);
 	return (
-		<UserContext.Provider value={state}>{children}</UserContext.Provider>
+		<UserContext.Provider value={{ ...state, dispatch }}>
+			{children}
+		</UserContext.Provider>
 	);
 }

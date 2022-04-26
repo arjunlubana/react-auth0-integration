@@ -18,12 +18,12 @@ export default function UserMenu() {
 
   if (loading) {
     return (
-      <Skeleton>
-        <Avatar />
-      </Skeleton>
+      <Avatar>
+        <Skeleton />
+      </Avatar>
     );
   }
-  return (
+  return data ? (
     <>
       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
         <Avatar alt={data.name} src={data.picture} />
@@ -52,5 +52,7 @@ export default function UserMenu() {
         </MenuItem>
       </Menu>
     </>
+  ) : (
+    ""
   );
 }
